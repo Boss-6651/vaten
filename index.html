@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="index.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <title>Virtual Valentine's Day Card</title>
+        <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เพลงรักคุณเขาอกแล้ว (Autoplay)</title>
+    
+    </head>
+    <body>
+        <div class="envelope-wrapper">
+            <div id="envelope" class="close">
+                <div class="front flap"></div>
+                <div class="front pocket"></div>
+                <div class="letter">
+                    <p class="words line1">to My love</p>
+                    <p class="words line2">Happy valentine day naka teerak ขอให้เราอยู่ด้วยกันแบบนี้รักกันแบบนี้ไปทุกๆปีทุกๆเทศกาลเลยนะ ขอบคุณที่ซัพพอร์ตเค้าคอยให้กำลังใจคอยอยู่ข้างๆเค้ามาโดยตลอด ขอบคุณที่เธอเค้ามาในชีวิตเค้านะเค้าโชคดีมากๆที่เจอเธอ เค้าจะอยู่ข้างๆคอยรับฟังเธอคอยโอ๋คอยดูแลเธอไปตลอด  ขอให้เราสองคนจับมือกันแน่นๆผ่านทุกๆปัญหาที่เข้ามาไปด้วยกันให้ได้นะคับ รักเธอทุกวัน</p>
+                    <p class="words line3"></p>
+                    <p class="words line4"></p>
+                </div>
+                <div class="hearts">
+                    <div class="heart a1"></div>
+                    <div class="heart a2"></div>
+                    <div class="heart a3"></div>
+                </div>
+            </div>
+        </div>
+        <div class="reset">
+            <button id="open">Open</button>
+            <button id="reset">Reset</button>
+        </div>
+        <h1 class="valentine">Happy Valentine's Day Teerak</h1>
+        <script src="index.js"></script>
+        
+        <audio id="myAudio">
+            <source src="c:\Users\keuap\Downloads\รกคณเขาอกแลว  Falling in Love Again.mp3" type="audio/mpeg">
+        </audio>
+        
+        <button onclick="document.getElementById('myAudio').play()">เล่น</button>
+        <button onclick="document.getElementById('myAudio').pause()">หยุด</button>
+        
+    
+       
+        
+        
+        
+    </body>
+</html>
