@@ -1,52 +1,509 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="index.css" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-        <title>Virtual Valentine's Day Card</title>
-        <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เพลงรักคุณเขาอกแล้ว (Autoplay)</title>
-    
-    </head>
-    <body>
-        <div class="envelope-wrapper">
-            <div id="envelope" class="close">
-                <div class="front flap"></div>
-                <div class="front pocket"></div>
-                <div class="letter">
-                    <p class="words line1">to My love</p>
-                    <p class="words line2">Happy valentine day naka teerak ขอให้เราอยู่ด้วยกันแบบนี้รักกันแบบนี้ไปทุกๆปีทุกๆเทศกาลเลยนะ ขอบคุณที่ซัพพอร์ตเค้าคอยให้กำลังใจคอยอยู่ข้างๆเค้ามาโดยตลอด ขอบคุณที่เธอเค้ามาในชีวิตเค้านะเค้าโชคดีมากๆที่เจอเธอ เค้าจะอยู่ข้างๆคอยรับฟังเธอคอยโอ๋คอยดูแลเธอไปตลอด  ขอให้เราสองคนจับมือกันแน่นๆผ่านทุกๆปัญหาที่เข้ามาไปด้วยกันให้ได้นะคับ รักเธอทุกวัน</p>
-                    <p class="words line3"></p>
-                    <p class="words line4"></p>
-                </div>
-                <div class="hearts">
-                    <div class="heart a1"></div>
-                    <div class="heart a2"></div>
-                    <div class="heart a3"></div>
-                </div>
-            </div>
-        </div>
-        <div class="reset">
-            <button id="open">Open</button>
-            <button id="reset">Reset</button>
-        </div>
-        <h1 class="valentine">Happy Valentine's Day Teerak</h1>
-        <script src="index.js"></script>
-        
-        <audio id="myAudio">
-            <source src="c:\Users\keuap\Downloads\รกคณเขาอกแลว  Falling in Love Again.mp3" type="audio/mpeg">
-        </audio>
-        
-        <button onclick="document.getElementById('myAudio').play()">เล่น</button>
-        <button onclick="document.getElementById('myAudio').pause()">หยุด</button>
-        
-    
-       
-        
-        
-        
-    </body>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💌 บอกรัก</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Thai:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --rose: #e8305a;
+      --blush: #f7c5d0;
+      --cream: #fff8f0;
+      --gold: #c9963e;
+      --dark: #2a1a1f;
+      --soft: #f9e8ee;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--cream);
+      font-family: 'Noto Serif Thai', serif;
+      color: var(--dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== FLOATING HEARTS ===== */
+    #hearts-container {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+      overflow: hidden;
+    }
+    .heart-float {
+      position: absolute;
+      bottom: -60px;
+      font-size: 1.4rem;
+      opacity: 0;
+      animation: floatUp 6s ease-in infinite;
+    }
+    @keyframes floatUp {
+      0%   { opacity: 0; transform: translateY(0) rotate(0deg); }
+      10%  { opacity: 0.8; }
+      90%  { opacity: 0.5; }
+      100% { opacity: 0; transform: translateY(-100vh) rotate(30deg); }
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 60px 20px 30px;
+      background: linear-gradient(180deg, #fce4ec 0%, var(--cream) 100%);
+    }
+    header .icon-row {
+      font-size: 2.2rem;
+      letter-spacing: 12px;
+      margin-bottom: 16px;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 3.6rem);
+      color: var(--rose);
+      line-height: 1.2;
+      letter-spacing: 2px;
+    }
+    header p.subtitle {
+      margin-top: 10px;
+      font-size: 1rem;
+      color: #a0607a;
+      letter-spacing: 1px;
+    }
+    .divider {
+      margin: 24px auto;
+      width: 120px;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--rose), transparent);
+    }
+
+    /* ===== MAIN CARD ===== */
+    main {
+      position: relative; z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 36px 32px;
+      box-shadow: 0 8px 40px rgba(232,48,90,0.1);
+      margin-bottom: 24px;
+      border: 1px solid #fde8ef;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--rose);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ===== IMAGE UPLOAD ===== */
+    .photo-area {
+      width: 100%;
+      aspect-ratio: 4/3;
+      border: 2px dashed var(--blush);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      overflow: hidden;
+      background: var(--soft);
+      position: relative;
+    }
+    .photo-area:hover { border-color: var(--rose); background: #fff0f4; }
+    .photo-area img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 14px;
+      display: none;
+    }
+    .photo-placeholder {
+      text-align: center;
+      color: #c48aa0;
+    }
+    .photo-placeholder .big-icon { font-size: 3rem; margin-bottom: 8px; }
+    .photo-placeholder p { font-size: 0.9rem; }
+
+    input[type="file"] { display: none; }
+
+    /* ===== INPUTS ===== */
+    .field { margin-bottom: 18px; }
+    label { display: block; font-size: 0.85rem; color: #a0607a; margin-bottom: 6px; font-weight: 600; letter-spacing: 0.5px; }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid #fbc8d8;
+      border-radius: 12px;
+      font-family: 'Noto Serif Thai', serif;
+      font-size: 1rem;
+      color: var(--dark);
+      background: var(--soft);
+      transition: border-color 0.3s, box-shadow 0.3s;
+      outline: none;
+      resize: none;
+    }
+    input[type="text"]:focus, textarea:focus {
+      border-color: var(--rose);
+      box-shadow: 0 0 0 3px rgba(232,48,90,0.08);
+      background: #fff;
+    }
+    textarea { min-height: 120px; }
+
+    /* ===== EMOJI PICKER ===== */
+    .emoji-row {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-top: 8px;
+    }
+    .emoji-btn {
+      background: var(--soft);
+      border: 1.5px solid transparent;
+      border-radius: 10px;
+      font-size: 1.3rem;
+      padding: 6px 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .emoji-btn:hover, .emoji-btn.active {
+      border-color: var(--rose);
+      background: #ffe8ef;
+      transform: scale(1.2);
+    }
+
+    /* ===== BUTTON ===== */
+    .btn-generate {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #e8305a, #f46b8a);
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      font-family: 'Noto Serif Thai', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 6px 24px rgba(232,48,90,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-generate::before {
+      content: '';
+      position: absolute; top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    .btn-generate:hover::before { left: 100%; }
+    .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(232,48,90,0.4); }
+    .btn-generate:active { transform: translateY(0); }
+
+    /* ===== RESULT CARD ===== */
+    #result {
+      display: none;
+      animation: fadeInUp 0.7s ease;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .result-inner {
+      background: linear-gradient(145deg, #fff0f5, #fff8fb);
+      border: 1.5px solid #fbc8d8;
+      border-radius: 24px;
+      padding: 40px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .result-inner::before {
+      content: '♥';
+      position: absolute; top: -20px; right: -20px;
+      font-size: 120px;
+      color: rgba(232,48,90,0.05);
+      pointer-events: none;
+    }
+    #result-photo {
+      width: 100%;
+      max-height: 340px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 24px;
+      display: none;
+      box-shadow: 0 8px 30px rgba(232,48,90,0.15);
+    }
+    #result-emoji { font-size: 3rem; margin-bottom: 12px; }
+    #result-to {
+      font-size: 0.9rem;
+      color: #a0607a;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    #result-name {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      color: var(--rose);
+      margin-bottom: 20px;
+    }
+    .result-divider {
+      width: 60px; height: 1.5px;
+      background: linear-gradient(to right, transparent, var(--rose), transparent);
+      margin: 0 auto 20px;
+    }
+    #result-msg {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: #4a2a35;
+      white-space: pre-wrap;
+    }
+    #result-from {
+      margin-top: 24px;
+      font-size: 0.9rem;
+      color: #c48aa0;
+      letter-spacing: 1px;
+    }
+    #result-from span {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--rose);
+    }
+
+    /* sparkle */
+    .sparkle {
+      position: absolute;
+      pointer-events: none;
+      font-size: 1.2rem;
+      animation: sparklePop 1s ease forwards;
+    }
+    @keyframes sparklePop {
+      0%   { opacity: 0; transform: scale(0) rotate(0deg); }
+      50%  { opacity: 1; transform: scale(1.4) rotate(180deg); }
+      100% { opacity: 0; transform: scale(0) rotate(360deg); }
+    }
+
+    /* share btn */
+    .btn-share {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 24px;
+      padding: 12px 28px;
+      background: transparent;
+      border: 1.5px solid var(--rose);
+      color: var(--rose);
+      border-radius: 50px;
+      font-family: 'Noto Serif Thai', serif;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-share:hover { background: var(--rose); color: #fff; }
+
+    @media (max-width: 480px) {
+      .card { padding: 24px 18px; }
+      .result-inner { padding: 28px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="hearts-container"></div>
+
+<header>
+  <div class="icon-row">💌 🌹 💕</div>
+  <h1>บอกรัก</h1>
+  <p class="subtitle">สร้างข้อความรักสุดพิเศษ เพื่อคนที่คุณรัก</p>
+  <div class="divider"></div>
+</header>
+
+<main>
+
+  <!-- FORM CARD -->
+  <div class="card">
+    <div class="card-title">🖼️ รูปภาพของคุณสองคน</div>
+    <label for="imgInput" class="photo-area" id="photoArea">
+      <img id="previewImg" src="" alt="preview" />
+      <div class="photo-placeholder" id="photoPlaceholder">
+        <div class="big-icon">📷</div>
+        <p>กดเพื่อเลือกรูปภาพ</p>
+      </div>
+    </label>
+    <input type="file" id="imgInput" accept="image/*" />
+  </div>
+
+  <div class="card">
+    <div class="card-title">✍️ ข้อมูลบอกรัก</div>
+
+    <div class="field">
+      <label>ชื่อของคนที่คุณรัก 💛</label>
+      <input type="text" id="toName" placeholder="ชื่อแฟนของคุณ..." />
+    </div>
+
+    <div class="field">
+      <label>ชื่อของคุณ 🤍</label>
+      <input type="text" id="fromName" placeholder="ชื่อคุณ..." />
+    </div>
+
+    <div class="field">
+      <label>ข้อความจากใจ 💬</label>
+      <textarea id="msgText" placeholder="เขียนสิ่งที่อยากบอกเขา/เธอ...&#10;เช่น ฉันรักเธอมากนะ รู้มั้ย? ตั้งแต่วันแรกที่เจอกัน..."></textarea>
+    </div>
+
+    <div class="field">
+      <label>เลือกอีโมจิที่ใช่ 💝</label>
+      <div class="emoji-row" id="emojiRow">
+        <button class="emoji-btn active" data-emoji="💕">💕</button>
+        <button class="emoji-btn" data-emoji="🌹">🌹</button>
+        <button class="emoji-btn" data-emoji="💖">💖</button>
+        <button class="emoji-btn" data-emoji="🥰">🥰</button>
+        <button class="emoji-btn" data-emoji="🌸">🌸</button>
+        <button class="emoji-btn" data-emoji="✨">✨</button>
+        <button class="emoji-btn" data-emoji="💌">💌</button>
+        <button class="emoji-btn" data-emoji="🦋">🦋</button>
+        <button class="emoji-btn" data-emoji="🌙">🌙</button>
+        <button class="emoji-btn" data-emoji="⭐">⭐</button>
+      </div>
+    </div>
+
+    <button class="btn-generate" onclick="generate()">
+      💕 สร้างการ์ดบอกรัก
+    </button>
+  </div>
+
+  <!-- RESULT -->
+  <div class="card" id="result">
+    <div class="card-title">💌 การ์ดของคุณ</div>
+    <div class="result-inner" id="resultInner">
+      <img id="result-photo" src="" alt="couple photo" />
+      <div id="result-emoji">💕</div>
+      <div id="result-to">เพื่อคนพิเศษ</div>
+      <div id="result-name">ชื่อแฟน</div>
+      <div class="result-divider"></div>
+      <div id="result-msg">ข้อความรัก...</div>
+      <div id="result-from">ด้วยรัก จาก <span id="result-from-name">คุณ</span> 🌹</div>
+    </div>
+    <div style="text-align:center">
+      <button class="btn-share" onclick="copyCard()">📋 คัดลอกข้อความ</button>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  // ===== FLOATING HEARTS =====
+  const container = document.getElementById('hearts-container');
+  const heartEmojis = ['💕','💖','🌹','✨','💗','🌸','💓','⭐'];
+  function spawnHeart() {
+    const el = document.createElement('div');
+    el.classList.add('heart-float');
+    el.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+    el.style.left = Math.random() * 100 + '%';
+    el.style.animationDuration = (4 + Math.random() * 5) + 's';
+    el.style.animationDelay = (Math.random() * 2) + 's';
+    el.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+    container.appendChild(el);
+    setTimeout(() => el.remove(), 9000);
+  }
+  setInterval(spawnHeart, 800);
+
+  // ===== IMAGE PREVIEW =====
+  document.getElementById('imgInput').addEventListener('change', function() {
+    const file = this.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = document.getElementById('previewImg');
+      img.src = e.target.result;
+      img.style.display = 'block';
+      document.getElementById('photoPlaceholder').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // ===== EMOJI PICKER =====
+  let selectedEmoji = '💕';
+  document.getElementById('emojiRow').addEventListener('click', e => {
+    const btn = e.target.closest('.emoji-btn');
+    if (!btn) return;
+    document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedEmoji = btn.dataset.emoji;
+  });
+
+  // ===== GENERATE =====
+  function generate() {
+    const to   = document.getElementById('toName').value.trim() || 'ที่รัก';
+    const from = document.getElementById('fromName').value.trim() || 'ฉัน';
+    const msg  = document.getElementById('msgText').value.trim() || 'รักเธอมากนะ 💕';
+    const previewSrc = document.getElementById('previewImg').src;
+
+    document.getElementById('result-emoji').textContent = selectedEmoji;
+    document.getElementById('result-to').textContent = 'เพื่อคนพิเศษ';
+    document.getElementById('result-name').textContent = to;
+    document.getElementById('result-msg').textContent = msg;
+    document.getElementById('result-from-name').textContent = from;
+
+    const rp = document.getElementById('result-photo');
+    if (previewSrc && previewSrc !== window.location.href) {
+      rp.src = previewSrc;
+      rp.style.display = 'block';
+    } else {
+      rp.style.display = 'none';
+    }
+
+    const resultEl = document.getElementById('result');
+    resultEl.style.display = 'block';
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // sparkle burst
+    setTimeout(() => spawnSparkles(), 300);
+  }
+
+  function spawnSparkles() {
+    const ri = document.getElementById('resultInner');
+    const sparkleIcons = ['✨','💖','🌸','⭐','💕','🌟'];
+    for (let i = 0; i < 12; i++) {
+      setTimeout(() => {
+        const s = document.createElement('div');
+        s.classList.add('sparkle');
+        s.textContent = sparkleIcons[Math.floor(Math.random() * sparkleIcons.length)];
+        s.style.left  = (Math.random() * 90 + 5) + '%';
+        s.style.top   = (Math.random() * 80 + 5) + '%';
+        ri.appendChild(s);
+        setTimeout(() => s.remove(), 1000);
+      }, i * 60);
+    }
+  }
+
+  // ===== COPY =====
+  function copyCard() {
+    const to   = document.getElementById('result-name').textContent;
+    const msg  = document.getElementById('result-msg').textContent;
+    const from = document.getElementById('result-from-name').textContent;
+    const text = `💌 ถึง ${to}\n\n${msg}\n\nด้วยรักจาก ${from} 🌹`;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.btn-share');
+      btn.textContent = '✅ คัดลอกแล้ว!';
+      setTimeout(() => btn.textContent = '📋 คัดลอกข้อความ', 2000);
+    });
+  }
+</script>
+</body>
 </html>
